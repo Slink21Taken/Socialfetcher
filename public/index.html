@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Fetcher</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="all-contain">
+        <div id="hero-text">
+            <div id="herotxt">
+                <h1>Track Creators Across Platforms</h1>
+                <p>Instantly fetch public data from YouTube, TikTok, Instagram, Twitter, and Facebook. One handle, all insights.</p>
+                <p> Using <a href="https://scrapecreators.com/">Scrape Creators API</a>, <a href="https://rapidapi.com/social-lens-social-lens-default/api/instagram-social-api">Instagram Social API</a> and the <a href="https://developers.google.com/youtube/v3">Official Google Developers Youtube Endpoint</a></p>
+                <h1>How it works</h1>
+                <p> This tool uses public APIs to fetch public profile data and disassemble it to show relevant data.</p>
+                <p>The source code for this project is linked on my <a href='https://github.com/Slink21Taken'>Github</a></p>
+                <div id="image">
+
+                <img>
+            </div>
+        </div>
+        <div id="container-parent">
+            <div id="container">
+                <div id="inputfield">
+                    <input id="input" placeholder="Enter a handle">
+                </div>
+                <div id="buttons">
+                    <button id="facebook">Search Facebook profile</button>
+                    <button id="insta">Search Instagram profile</button>
+                    <button id="tiktok">Search TikTok profile</button>
+                    <button id="twitter">Search Twitter profile</button>
+                    <button id="yt">Search Youtube profile</button>
+                </div>
+                <div id="result-area">
+                    <p id="result">Results will appear here.</p>
+                </div>
+                <div id="options">
+                    <div id="channel-options"></div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <footer id="footer">
+  <div id="footer-content">
+    <p>Built with ❤️ by Slink21Taken· Powered by public APIs (API keys needed)</p>
+    <p><a href="https://github.com/Slink21Taken" target="_blank">GitHub</a>
+  </div>
+</footer>
+
+    
+    <script type="module">
+        const apikey = "DayOi7QwYXSDMLxM1tSMGOvK19k1";
+const googleapikey = "AIzaSyCOINoF7hvGvx0gmOhQ0esflqcFx3MHyUM";
+const inp = document.getElementById("input");
+const fb = document.getElementById("facebook");
+const ig = document.getElementById("insta");
+const tt = document.getElementById("tiktok");
+const x = document.getElementById("twitter");
+const yt = document.getElementById("yt");
+const options = document.getElementById("channel-options");
+const results = document.getElementById("result");
+
+function isValidInput(val) {
+    return typeof val === "string" && val.trim().length > 0;
+}
+
+fb.addEventListener("click", async () => {
+    let val = inp.value.trim();
+    if (!isValidInput(val)) {
+        results.innerHTML = "❌ Please enter a valid handle.";
+        return;
+    }
+
+    results.innerHTML = "Loading...";
+
+    try {
+        let response = await fetch("http://localhost:3001/facebook", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ handle: val }) 
+        });
+
+        let data = await response.json();
+
+        results.innerHTML = `Name: ${data.name} <br>Gender: ${data.gender} <br>Likes: ${data.likes} <br>Followers: ${data.followers} <br>Made at: ${data.creationdate}`;
+    } catch (err) {
+        results.innerHTML = "❌ Error fetching Facebook data.";
+    }
+});
+
+ig.addEventListener("click", async () => {
+    let val = inp.value.trim();
+    if (!isValidInput(val)) {
+        results.innerHTML = "❌ Please enter a valid handle.";
+        return;
+    }
+
+    results.innerHTML = "Loading...";
+
+    try {
+        let response = await fetch("http://localhost:3001/insta", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ handle: val }) 
+        });
+
+        let data = await response.json();
+        results.innerHTML = `Fullname : ${data.fullname} <br>Followers: ${data.followers}<br>Following: ${data.following}<br>Bio: ${data.bio}<br>Category : ${data.category}`
+    } catch (err) {
+        results.innerHTML = "❌ Error fetching Instagram data.";
+    }
+});
+
+tt.addEventListener("click", async () => {
+    let val = inp.value.trim();
+    if (!isValidInput(val)) {
+        results.innerHTML = "❌ Please enter a valid handle.";
+        return;
+    }
+
+    results.innerHTML = "Loading...";
+
+    try {
+        let response = await fetch("http://localhost:3001/tiktok", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ handle: val })
+        });
+
+        let data = await response.json();
+        results.innerHTML = `Username/Name: ${data.username}/${data.name}<br>Followers: ${data.followers}<br>Following: ${data.following} <br>Bio: ${data.bio}<br>Tweets: ${data.tweets}<br>Created at ${data.joined}`
+    } catch (err) {
+        results.innerHTML = "❌ Error fetching TikTok data.";
+    }
+});
+
+x.addEventListener("click", async () => {
+    let val = inp.value.trim();
+    if (!isValidInput(val)) {
+        results.innerHTML = "❌ Please enter a valid handle.";
+        return;
+    }
+
+    results.innerHTML = "Loading...";
+
+    try {
+        let response = await fetch("http://localhost:3001/twitter", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ handle: val }) 
+        });
+
+        let data = await response.json();
+        results.innerHTML = `Username/Name: ${data.username}/${data.name}<br>Followers: ${data.followers}<br>Following: ${data.following} <br>Bio: ${data.bio}<br>Tweets: ${data.tweets}<br>Created at ${data.joined}`
+    } catch (err) {
+        results.innerHTML = "❌ Error fetching Twitter data.";
+    }
+});
+
+yt.addEventListener("click", async () => {
+    let val = inp.value.trim();
+    if (!isValidInput(val)) {
+        results.innerHTML = "❌ Please enter a valid handle.";
+        return;
+    }
+
+    results.innerHTML = "Loading...";
+    options.innerHTML = "";
+
+    try {
+        console.log("Sending handle:", val);
+        let response = await fetch("http://localhost:3001/youtubeoptions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ handle: val }) 
+        });
+
+        let data = await response.json();
+
+        if (!Array.isArray(data) || data.length === 0) {
+            results.innerHTML = "❌ No YouTube channels found.";
+            return;
+        }
+        results.innerHTML = "";
+        data.forEach(channel => {
+            let card = document.createElement("div");
+            card.innerHTML = `
+                <strong>${channel.title}</strong><br>
+                <i class='channelid'>${channel.channelId}</i><br>
+                ${channel.description}<br>
+                <img src="${channel.thumbnail}" alt="Thumbnail for ${channel.title}" width="88" height="88"><br>
+                <br> <button class='channelbtns'>Choose</button>`;
+            options.appendChild(card);
+            document.body.style.overflow = "auto"; 
+        });
+    } catch (err) {
+        results.innerHTML = "❌ Error fetching YouTube options.";
+    }
+});
+
+options.addEventListener("click", async (e) => {
+    if (e.target.classList.contains("channelbtns")) {
+        const card = e.target.closest("div");
+        const channelId = card.querySelector(".channelid").textContent;
+        const title = card.querySelector("strong").textContent;
+
+        if (!isValidInput(channelId)) {
+            results.innerHTML = "❌ Invalid channel ID.";
+            return;
+        }
+        document.body.style.overflow = "hidden"; 
+        results.innerHTML = "Loading...";
+        options.innerHTML = "";
+
+        try {
+            console.log(channelId)
+            let response = await fetch("http://localhost:3001/youtube", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ channelId }) // Updated to send channelId in request body
+            });
+
+            let data = await response.json();
+            results.innerHTML = `
+                Name: ${data.name}<br>
+                Subscribers: ${data.subscribers}<br>
+                Bio: ${data.bio}<br>
+                Views: ${data.views}<br>
+                Videos: ${data.videos}<br>
+                Created at: ${data.creationDate}
+            `;
+
+        } catch (err) {
+            results.innerHTML = "❌ Error fetching YouTube channel data.";
+        }
+    }
+});   
+    </script>
+</body>
+</html>
