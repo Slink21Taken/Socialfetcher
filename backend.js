@@ -8,7 +8,6 @@ app.use(express.static('public'));
 app.use(express.json());
 
 import { fetchinstadata } from "./public/utils/instafetch.js";
-import { fetchtiktokdata } from "./public/utils/tikfetch.js";
 import { fetchxdata } from "./public/utils/twitterfetch.js";
 import { fetchfbdata } from "./public/utils/fbfetch.js";
 import { fetchytdata, fetchchannelid } from "./public/utils/ytfetch.js";
@@ -41,17 +40,6 @@ app.post('/insta',  async (req, res) => {
   } catch (err) {
     console.error("Instagram fetch error:", err);
     res.status(500).json({ error: 'Failed to fetch Instagram data' });
-  }
-});
-
-app.post('/tiktok',  async (req, res) => {
-  try {
-    const handle = req.body.handle; 
-    const data = await fetchtiktokdata(handle);
-    res.json(data);
-  } catch (err) {
-    console.error("Tiktok fetch error:", err);
-    res.status(500).json({ error: 'Failed to fetch Tiktok data' });
   }
 });
 
