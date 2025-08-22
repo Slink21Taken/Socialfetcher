@@ -32,7 +32,6 @@
                 <div id="buttons">
                     <button id="facebook">Search Facebook profile</button>
                     <button id="insta">Search Instagram profile</button>
-                    <button id="tiktok">Search TikTok profile</button>
                     <button id="twitter">Search Twitter profile</button>
                     <button id="yt">Search Youtube profile</button>
                 </div>
@@ -121,30 +120,6 @@ ig.addEventListener("click", async () => {
     }
 });
 
-tt.addEventListener("click", async () => {
-    let val = inp.value.trim();
-    if (!isValidInput(val)) {
-        results.innerHTML = "❌ Please enter a valid handle.";
-        return;
-    }
-
-    results.innerHTML = "Loading...";
-
-    try {
-        let response = await fetch("http://localhost:3001/tiktok", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ handle: val })
-        });
-
-        let data = await response.json();
-        results.innerHTML = `Username/Name: ${data.username}/${data.name}<br>Followers: ${data.followers}<br>Following: ${data.following} <br>Bio: ${data.bio}<br>Tweets: ${data.tweets}<br>Created at ${data.joined}`
-    } catch (err) {
-        results.innerHTML = "❌ Error fetching TikTok data.";
-    }
-});
 
 x.addEventListener("click", async () => {
     let val = inp.value.trim();
