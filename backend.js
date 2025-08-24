@@ -1,34 +1,34 @@
 import express from 'express';
 import path from 'path';
-
+import bodyParser from "body-parser";
 const app = express();
 const port = 3001;
 
 app.use(express.static('public'));
 app.use(express.json());
-
+app.use(bodyParser.json());
 import { fetchinstadata } from "./public/utils/instafetch.js";
 import { fetchxdata } from "./public/utils/twitterfetch.js";
 import { fetchfbdata } from "./public/utils/fbfetch.js";
 import { fetchytdata, fetchchannelid } from "./public/utils/ytfetch.js";
 
-const apikey ="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-const rapidapikey = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
-const googleapikey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+const apikey ="xxxxxxxxxxxxxxxxxxxxxxxxxx";
+const rapidapikey = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+const googleapikey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
 
 app.get('/', async (req, res) => {
   res.json("Here...");
 });
 
-app.post('/facebook', async (req, res) => {
+app.post("/facebook", async (req, res) => {
   try {
-    const handle = req.body.handle; 
-    const data = await fetchfbdata(handle, apikey);
-    res.json(data);
+    const handle = req.body.handle;
+    const data = await fetchfbdata(handle, apikey); 
+    res.json(data)
   } catch (err) {
-    console.error("Facebook fetch error:", err);
-    res.status(500).json({ error: 'Failed to fetch Facebook data' });
+    console.error("Facebook fetch error:", err.message);
+    res.status(500).json({ error: "Failed to fetch Facebook data" });
   }
 });
 
@@ -42,6 +42,7 @@ app.post('/insta',  async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch Instagram data' });
   }
 });
+
 
 app.post('/twitter',  async (req, res) => {
   try {
